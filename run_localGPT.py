@@ -195,9 +195,10 @@ def main(device_type, show_sources):
 
 
     template = """Use the following pieces of context to answer the question at the end. If you don't know the answer,\
-    just say that you don't know, don't try to make up an answer.
+    just say that you don't know, don't try to make up an answer. The email, phone no, policy no are personal data and should be masked.
 
     {context}
+    Calculate all this based on the client's documentation and insurance policy that was provided.
 
     {history}
     Question: {question}

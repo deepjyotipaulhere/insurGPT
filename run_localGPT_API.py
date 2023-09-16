@@ -173,4 +173,4 @@ if __name__ == "__main__":
     # logging.basicConfig(
     #     format="%(asctime)s - %(levelname)s - %(filename)s:%(lineno)s - %(message)s", level=logging.INFO
     # )
-    app.run(debug=False, port=5110)
+    app.run(debug=False, port=5110, host='0.0.0.0')

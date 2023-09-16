@@ -64,4 +64,4 @@ if __name__ == "__main__":
                              "Set to 0.0.0.0 to make the UI externally "
                              "accessible from other devices.")
     args = parser.parse_args()
-    app.run(debug=False, host=args.host, port=args.port)
+    app.run(debug=True, host='0.0.0.0', port=args.port)
