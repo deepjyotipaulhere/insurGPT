@@ -1,4 +1,6 @@
 import os
+from flask import Flask, jsonify, request
+
 from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, UnstructuredExcelLoader, Docx2txtLoader
 from langchain.embeddings import OpenAIEmbeddings
 # from langchain.embeddings import HuggingFaceInstructEmbeddings
@@ -12,6 +14,10 @@ from langchain_experimental.sql import SQLDatabaseChain
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
+app = Flask(__name__)
+
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0,
+                     openai_api_key=os.environ['OPEN_API_KEY'])
 
 def sql_template(llm, question):
     template = """ 
@@ -27,6 +33,20 @@ def sql_template(llm, question):
     result = db_chain.run(template.format(question=question))
     return result
 
+@app.route("/api/prompt_sql_route", methods=["POST"])
+def prompt_sql_route():
+    user_prompt = request.form.get("user_prompt")
+    if user_prompt:
+        # Get the answer from the chain
+        answer = sql_template(llm, user_prompt)
+
+        prompt_response_dict = {
+            "Prompt": user_prompt,
+            "Answer": answer,
+        }
+        return jsonify(prompt_response_dict), 200
+    else:
+        return "No user prompt received", 400
 
 def qa_template(llm, question):
     template = """Use the following pieces of context to answer the question at the end. 
@@ -61,8 +81,6 @@ def main():
     #     openai_api_key='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')
     #                                     # EMBEDDINGS
     #                                     )
-    llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0,
-                     openai_api_key=os.environ('OPEN_API_KEY'))
     question = "How many people obtained the motor insurance in the last 3 months with the total premium exceeding 3K euros"
 
     sql_answer = sql_template(llm, question=question)
@@ -72,4 +90,4 @@ def main():
     print(answer)
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=False, port=5120)
