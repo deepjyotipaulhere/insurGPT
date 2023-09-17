@@ -1,3 +1,5 @@
+![](https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/588/935/datas/gallery.jpg)
+
 ## Inspiration
 Imagine if you're on your own in a foreign country and you've been bitten by a stray dog, and you need to be treated ASAP. Could you imagine trying to read through a 99-page, fine-print document to find out if you're covered whilst in immense pain? No, you couldn't. Which is why you need that friend who can search for you. 
 
